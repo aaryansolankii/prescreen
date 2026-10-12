@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preflight report — APP_NAME — Prescreen</title>
+<link rel="stylesheet" href="style.css">
+<style>
+  .summary td:first-child { width: 42%; }
+  .finding { border-left: 4px solid var(--line); padding-left: 14px; margin: 18px 0; }
+  .finding.fail { border-color: var(--fail); }
+  .finding.warn { border-color: var(--warn); }
+  .finding.pass { border-color: var(--pass); }
+  .meta { color: var(--muted); font-size: 14px; }
+  @media print { header nav, .noprint { display: none; } body { font-size: 13px; } }
+</style>
+</head>
+<body>
+<header>
+  <a class="brand brand-name" href="index.html">Prescreen</a>
+  <nav><a href="index.html">Home</a><a href="refund.html">Refunds</a><a href="contact.html">Contact</a></nav>
+</header>
+<main>
+  <h1>Preflight report: APP_NAME</h1>
+  <p class="meta">Prepared for CUSTOMER_EMAIL · DATE · Project type: PROJECT_TYPE (e.g. Lovable web app wrapped with Capacitor 6) · Report ID: REPORT_ID</p>
+
+  <div class="card">
+    <b>Read this first.</b> Findings are labelled <span class="tag fail">fail</span> (Apple's upload check or a reviewer will almost certainly cite it), <span class="tag warn">warn</span> (commonly cited; fix before submitting), <span class="tag pass">pass</span>, or <span class="tag unknown">needs a human</span> (a judgement call we can't decide statically). Each has a confidence level. Fixing everything here does not guarantee approval; Apple decides. Guideline numbers refer to Apple's App Review Guidelines.
+  </div>
+
+  <h2>Summary</h2>
+  <table class="summary">
+    <tr><th>Check</th><th>Result</th><th>Confidence</th><th>One-line note</th></tr>
+    <tr><td>1. Placeholder text and dead links (2.1)</td><td><span class="tag warn">warn</span></td><td>High</td><td>"Lorem ipsum" in Settings → About; privacy URL returns 404</td></tr>
+    <tr><td>2. Reviewer can get in (2.1, 2.3.1)</td><td><span class="tag unknown">needs a human</span></td><td>—</td><td>Login exists; confirm a demo account is in Notes for Review</td></tr>
+    <tr><td>3. Listing matches the app (2.3)</td><td><span class="tag pass">pass</span></td><td>Medium</td><td>Description claims only shipped features</td></tr>
+    <tr><td>4. Privacy policy (5.1.1(i))</td><td><span class="tag fail">fail</span></td><td>High</td><td>URL does not load</td></tr>
+    <tr><td>5. Permission purpose strings (5.1.1(ii))</td><td><span class="tag fail">fail</span></td><td>High</td><td>NSCameraUsageDescription present but boilerplate; NSPhotoLibraryUsageDescription missing (ITMS-90683)</td></tr>
+    <tr><td>6. Privacy manifest (ITMS-91053/91061)</td><td><span class="tag warn">warn</span></td><td>Medium</td><td>Capacitor is on Apple's SDK list; no PrivacyInfo.xcprivacy found</td></tr>
+    <tr><td>7. Not a web wrapper (4.2)</td><td><span class="tag fail">fail</span></td><td>High</td><td>capacitor.config has server.url = https://… (live site)</td></tr>
+    <tr><td>8. Not a template clone (4.3)</td><td><span class="tag unknown">needs a human</span></td><td>Low</td><td>Category is crowded; Notes for Review should state the difference</td></tr>
+    <tr><td>9. Remote updates in bounds (2.5.2)</td><td><span class="tag pass">pass</span></td><td>Medium</td><td>No OTA library detected</td></tr>
+    <tr><td>10. Sign in with Apple (4.8)</td><td><span class="tag warn">warn</span></td><td>High</td><td>Google sign-in present, Apple sign-in absent</td></tr>
+    <tr><td>11. Payments (3.1.1)</td><td><span class="tag pass">pass</span></td><td>Medium</td><td>No in-app purchase of digital goods detected</td></tr>
+    <tr><td>12. Account deletion and build sanity (5.1.1(v), 2.1, 2.4)</td><td><span class="tag warn">warn</span></td><td>Medium</td><td>No delete-account flow found; "Beta" in app name</td></tr>
+  </table>
+
+  <h2>Fix these first</h2>
+  <p class="meta">Ordered by how likely each is to be cited, then by effort.</p>
+
+  <div class="finding fail">
+    <h3>Live-site wrapper (4.2) <span class="tag fail">fail</span> · confidence High</h3>
+    <p><b>What we found:</b> <code>capacitor.config.ts</code> sets <code>server.url</code> to your production website, so the app loads your site in a WebView instead of bundling it.</p>
+    <p><b>Why reviewers cite it:</b> Guideline 4.2 rejects apps that are not noticeably different from a website; Capacitor's own documentation says the live-URL mode is for development, not production.</p>
+    <p><b>How to fix:</b> remove <code>server.url</code>, run your web build and <code>npx cap sync</code> so the assets ship inside the app; then add at least one capability a browser can't offer (push notifications tied to the user's data, camera or file access, offline use, a widget or share extension). Mention that capability in Notes for Review.</p>
+  </div>
+
+  <div class="finding fail">
+    <h3>Permission strings (5.1.1(ii)) <span class="tag fail">fail</span> · confidence High</h3>
+    <p><b>What we found:</b> <code>NSPhotoLibraryUsageDescription</code> is missing although the photo picker is used; <code>NSCameraUsageDescription</code> reads "This app needs camera access".</p>
+    <p><b>Why it matters:</b> a missing string is rejected automatically at upload (ITMS-90683); boilerplate strings are cited under 5.1.1.</p>
+    <p><b>How to fix:</b> in <code>Info.plist</code> (or <code>ios.infoPlist</code> in <code>app.json</code> for Expo) write one sentence per permission in your own words: "We use your camera to photograph receipts you want to track." Remove permissions your app never uses.</p>
+  </div>
+
+  <div class="finding warn">
+    <h3>FINDING_TITLE (GUIDELINE) <span class="tag warn">warn</span> · confidence CONFIDENCE</h3>
+    <p><b>What we found:</b> …</p>
+    <p><b>Why reviewers cite it:</b> …</p>
+    <p><b>How to fix:</b> …</p>
+  </div>
+
+  <h2>Needs a human (judgement calls)</h2>
+  <p>These cannot be decided by reading your project. Here is what reviewers look at and what you can do:</p>
+  <ul>
+    <li><b>4.3 "spam / variant":</b> …</li>
+    <li><b>2.1 "account creation didn't work":</b> …</li>
+  </ul>
+
+  <h2>Your rejection, decoded</h2>
+  <p class="meta">Only in the $49 and $149 packages, or when you pasted a rejection with a free check.</p>
+  <table>
+    <tr><th>Apple wrote</th><th>What it usually means</th><th>Maps to</th><th>What to change</th></tr>
+    <tr><td>"…reviewer's sentence…"</td><td>…</td><td>Guideline 4.3(a)</td><td>…</td></tr>
+  </table>
+
+  <h3>Draft: Notes for Review</h3>
+  <div class="card">
+    <p>Demo account: demo@… / password …</p>
+    <p>What this app does that the website cannot: …</p>
+    <p>What is different from similar apps in this category: …</p>
+    <p>Changes made since the last submission: …</p>
+  </div>
+
+  <h2>What Apple's upload check catches anyway</h2>
+  <p>Missing purpose strings (ITMS-90683) and missing privacy manifests (ITMS-91053/91061) are rejected by App Store Connect at upload. If you get one of those emails, it is not a human rejection; fix the item and upload again.</p>
+
+  <h2>Resubmission checklist</h2>
+  <ol>
+    <li>Fix every <span class="tag fail">fail</span>.</li>
+    <li>Fix every <span class="tag warn">warn</span> you reasonably can; say in Notes for Review what you changed.</li>
+    <li>Paste the Notes for Review draft above into App Store Connect and fill the blanks.</li>
+    <li>Reply to the previous rejection in the Resolution Center rather than opening a fresh submission, when Apple gives that option.</li>
+    <li>Send us the new build or repo for your included re-check before you submit.</li>
+  </ol>
+
+  <h2>Caveats</h2>
+  <p>This review was produced from your project files, listing text and the message you pasted, with the help of AI tools, and read by a person before sending. It does not replace running the app on a device. It does not predict Apple's subjective decisions, and we do not claim a success rate. Not legal advice.</p>
+
+  <p class="noprint"><a class="cta pay-link" href="#">Pay for this report ($19)</a> &nbsp; <span class="meta">or reply to this email with questions. Full refund terms: see the refund policy.</span></p>
+</main>
+<footer>
+  <span class="brand-name">Prescreen</span> · <a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a> · <a href="refund.html">Refunds</a> · <a href="contact.html">Contact</a><br>Not affiliated with Apple Inc.
+</footer>
+<script src="brand.js"></script>
+</body>
+</html>

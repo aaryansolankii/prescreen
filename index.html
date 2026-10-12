@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prescreen — find out why Apple may reject your AI-built app, before Apple does</title>
+<meta name="description" content="Upload your Lovable, Bolt, Base44, Replit or Expo project and your rejection text. Get a plain-English fix list, mapped to Apple's guidelines, within 24 hours. No approval guarantees.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <a class="brand brand-name" href="index.html">Prescreen</a>
+  <nav>
+    <a href="#checks">What we check</a>
+    <a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+
+<main>
+  <h1>Find out why Apple may reject your AI-built app, before Apple does.</h1>
+  <p class="lead">Send your Lovable, Bolt or Base44 wrapper, Expo, Replit or Capacitor project and, if you have one, Apple's rejection message. You get a plain-English list of what to fix first, each item mapped to the guideline a reviewer would cite, within 24 hours.</p>
+
+  <p>
+    <a class="cta form-link" href="#">Request a check</a>
+    &nbsp;
+    <a class="cta secondary" href="#checks">See the 12 checks</a>
+  </p>
+  <p class="note">The first checks are free while this service is new. Apple makes every final decision; we do not promise approval.</p>
+
+  <h2>Who this is for</h2>
+  <div class="card">
+    <p>You built your app with an AI builder, wrapped it for iOS (or exported an Expo project), and either just got a rejection you don't understand, or you're about to submit and don't want to lose two weeks to a reviewer's note. You can't read the native project yourself, and your builder's chat can't see what Apple sees: the wrapper configuration, the permission strings, the privacy manifest, the listing.</p>
+  </div>
+
+  <h2 id="checks">The 12 checks</h2>
+  <p class="note">Each finding is labelled <span class="tag pass">pass</span> <span class="tag warn">warn</span> <span class="tag fail">fail</span> or <span class="tag unknown">needs a human</span>, with a confidence level. Guideline numbers refer to Apple's App Review Guidelines.</p>
+  <ol class="checks">
+    <li><b>Placeholder text and dead links</b> — "Lorem ipsum", "TBD", "test", sample data, broken URLs in the app or the listing. <span class="note">(2.1)</span></li>
+    <li><b>Reviewer can get in</b> — if your app has a login, a working demo account is in the review notes; nothing is behind a paywall the reviewer can't pass. <span class="note">(2.1, 2.3.1)</span></li>
+    <li><b>Listing matches the app</b> — screenshots show the real app, the description doesn't promise features that aren't there, the age rating fits. <span class="note">(2.3)</span></li>
+    <li><b>Privacy policy</b> — the URL loads, names the data you collect and the third parties you share it with. <span class="note">(5.1.1)</span></li>
+    <li><b>Permission purpose strings</b> — every permission you request (camera, photos, location, microphone, contacts, tracking) explains specifically why, in your words, not boilerplate. Missing strings are rejected at upload. <span class="note">(5.1.1, ITMS-90683)</span></li>
+    <li><b>Privacy manifest</b> — required-reason APIs declared and manifests present for the SDKs Apple lists. Missing ones are rejected at upload. <span class="note">(ITMS-91053, ITMS-91061)</span></li>
+    <li><b>Not just a website in a box</b> — no live-site <code>server.url</code> in production, real native behaviour beyond what the browser already does. <span class="note">(4.2)</span></li>
+    <li><b>Not a template clone</b> — distinctive name, icon and features; a saturated-category check; review notes that say what's different. <span class="note">(4.3)</span></li>
+    <li><b>Remote updates stay in bounds</b> — over-the-air update tools (Expo Updates, Capgo, CodePush and builder-specific OTA) configured for fixes inside the sandbox, not for shipping features around review. <span class="note">(2.5.2, advisory)</span></li>
+    <li><b>Sign in with Apple</b> — present if you offer Google, Facebook or any third-party login. <span class="note">(4.8)</span></li>
+    <li><b>Payments in the right place</b> — digital goods and subscriptions through in-app purchase, not a web checkout inside the app; physical goods and services exempt. <span class="note">(3.1.1)</span></li>
+    <li><b>Account deletion and build sanity</b> — in-app account deletion if users can sign up; no "beta" or "test" labels; builds and runs on current iOS; iPad layout if you claim iPad. <span class="note">(5.1.1(v), 2.1, 2.4)</span></li>
+  </ol>
+
+  <h2 id="pricing">Pricing</h2>
+  <div class="grid">
+    <div class="card">
+      <div class="price">$19 <small>one-off</small></div>
+      <p><b>Preflight check</b><br>All 12 checks on your project and listing, a plain-English fix list, and one re-check after you fix things.</p>
+    </div>
+    <div class="card">
+      <div class="price">$49 <small>one-off</small></div>
+      <p><b>Check + rejection decode</b><br>Everything in the $19 check, plus a line-by-line decode of Apple's rejection message and a draft of your Notes for Review.</p>
+    </div>
+    <div class="card">
+      <div class="price">$149 <small>one-off</small></div>
+      <p><b>Manual deep review</b><br>A person reads your project, writes the configuration fixes for you, and does two re-checks. Limited to three per week.</p>
+    </div>
+  </div>
+  <p><a class="cta form-link" href="#">Request a check</a> <span class="note">&nbsp;Payment is requested only after you've seen the first findings. Full refund if your report doesn't arrive within 24 hours. See the <a href="refund.html">refund policy</a>.</span></p>
+
+  <h2 id="faq">Honest answers</h2>
+  <h3>Will my app pass if I fix everything on the list?</h3>
+  <p>We don't know, and nobody can promise that. Some rejections (4.2 "minimum functionality", 4.3 "spam") are judgement calls by a reviewer. We tell you which findings are mechanical and which are opinions, and we label our confidence on each. We never publish or claim a success rate.</p>
+  <h3>What do you need from me?</h3>
+  <p>A GitHub link or a zip of the project (no secrets, please; see <a href="privacy.html">privacy</a>), your App Store listing text, and, if you have it, the full text of Apple's message. An <code>.ipa</code> file works too if that's all you have.</p>
+  <h3>Is this legal or compliance advice?</h3>
+  <p>No. It is a technical review against Apple's published guidelines. For legal questions about your privacy policy or terms, talk to a lawyer.</p>
+  <h3>Which builders do you cover?</h3>
+  <p>Web apps from Lovable, Bolt, Base44 and similar tools that were wrapped with Capacitor; Expo and React Native projects, including Replit and a0.dev exports; plain Xcode projects. If your builder already includes its own App Store reviewer (Rork, Vibecode), use that first.</p>
+  <h3>Who runs this?</h3>
+  <p>One person, building this in the open. Early checks are done by hand with the help of AI tools and reviewed before they're sent. Email <a class="mail-link" href="#">you@example.com</a> any time.</p>
+</main>
+
+<footer>
+  <span class="brand-name">Prescreen</span> · <a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a> · <a href="refund.html">Refunds</a> · <a href="contact.html">Contact</a><br>
+  Not affiliated with Apple Inc. App Store is a trademark of Apple Inc.
+</footer>
+<script src="brand.js"></script>
+</body>
+</html>
